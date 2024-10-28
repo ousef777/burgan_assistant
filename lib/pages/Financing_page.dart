@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:burgan_assistant/pages/Saving_page.dart';
 import 'request_appointment_page.dart'; // Import the new page
+import 'InvestmentPage.dart';
 
 class FinancingPage extends StatefulWidget {
   @override
@@ -248,20 +249,30 @@ class _FinancingPageState extends State<FinancingPage> {
         ),
       ),
       // Bottom navigation bar with "Financing" and "Saving" options
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.monetization_on),
-            label: 'Financing',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.savings),
-            label: 'Saving',
-          ),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   currentIndex: _selectedIndex,
+      //   selectedItemColor: Colors.black, // Ensures selected icon is black
+      //   unselectedItemColor: Colors.black,
+      //   onTap: _onItemTapped,
+      //   items: [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.monetization_on),
+      //       label: 'Financing',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.wallet),
+      //       label: 'Saving',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.trending_up),
+      //       label: 'Investment',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //   ],
+      // ),
       backgroundColor:
           Colors.white, // Set the background color of the screen to white
     );

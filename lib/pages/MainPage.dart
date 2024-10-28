@@ -1,8 +1,7 @@
-import 'package:burgan_assistant/pages/Financing_page.dart';
-import 'package:burgan_assistant/pages/Saving_page.dart';
 import 'package:flutter/material.dart';
-
-//import 'InvestmentPage.dart'; // Import InvestmentPage (create this if it doesn't exist)
+import 'package:burgan_assistant/pages/Saving_page.dart';
+import 'package:burgan_assistant/pages/Financing_page.dart';
+import 'package:burgan_assistant/pages/InvestmentPage.dart'; // Import the InvestPage
 
 class MainPage extends StatefulWidget {
   @override
@@ -10,14 +9,13 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0; // Track the currently selected index
+  int _selectedIndex = 0; // Default to SavingPage
 
   // List of pages to navigate
   final List<Widget> _pages = [
-    //HomePage(), // Replace with your HomePage widget
     SavingPage(),
     FinancingPage(),
-    //InvestmentPage(), // Replace with your InvestmentPage widget
+    InvestPage(), // Include InvestPage here
   ];
 
   // Method to update the selected index and navigate to the respective page
@@ -34,27 +32,26 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.savings),
+            icon: Icon(Icons.wallet),
             label: 'Saving',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money),
+            icon: Icon(Icons.monetization_on),
             label: 'Financing',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.trending_up),
             label: 'Investment',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.white,
-        onTap: _onItemTapped, // Handle tap on bottom navigation bar items
+        selectedItemColor: Colors.black, // Set color of selected item
+        unselectedItemColor: Colors.black, // Set color of unselected items
+        onTap: _onItemTapped, // Call the method to handle taps
       ),
     );
   }

@@ -46,17 +46,15 @@ class _SavingPageState extends State<SavingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        toolbarHeight: 80,
         title: Text(
           'Saving',
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 24, color: Colors.black),
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
-        elevation: 0,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -197,20 +195,30 @@ class _SavingPageState extends State<SavingPage> {
         ),
       ),
       // Bottom navigation bar with "Financing" and "Saving" options
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.monetization_on),
-            label: 'Financing',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.savings),
-            label: 'Saving',
-          ),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   currentIndex: _selectedIndex,
+      //   selectedItemColor: Colors.black, // Ensures selected icon is black
+      //   unselectedItemColor: Colors.black,
+      //   onTap: _onItemTapped,
+      //   items: [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.monetization_on),
+      //       label: 'Financing',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.wallet),
+      //       label: 'Saving',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.trending_up),
+      //       label: 'Investment',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //   ],
+      // ),
     );
   }
 
