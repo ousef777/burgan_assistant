@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  linear_progress_bar: ^1.1.2
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
