@@ -1,3 +1,4 @@
+import 'package:burgan_assistant/pages/Balance_page.dart';
 import 'package:flutter/material.dart';
 import 'package:burgan_assistant/pages/Saving_page.dart';
 import 'package:burgan_assistant/pages/Financing_page.dart';
@@ -13,6 +14,7 @@ class _MainPageState extends State<MainPage> {
 
   // List of pages to navigate
   final List<Widget> _pages = [
+    BalancePage(),
     SavingPage(),
     FinancingPage(),
     InvestPage(), // Include InvestPage here
@@ -32,6 +34,10 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
+            icon: Icon(Icons.money),
+            label: 'Balance',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.wallet),
             label: 'Saving',
           ),
@@ -43,10 +49,10 @@ class _MainPageState extends State<MainPage> {
             icon: Icon(Icons.trending_up),
             label: 'Investment',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.home),
+          //   label: 'Home',
+          // ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black, // Set color of selected item

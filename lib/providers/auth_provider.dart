@@ -6,17 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
-  List<String> token = ["", "", ""]; //"status code", "email", "token"
+  List<String> token = ["", "", ""]; //"error", "email", "token"
   User? user;
 
-  void signup({required String email, required String password}) async {
+  Future<void> signup({required String email, required String password}) async {
     token[2] = await AuthServices().signup(email: email, password: password);
+    token[1] = email;
     //_setToken();
     //print(token);
     notifyListeners();
   }
 
-  void login({required String email, required String password}) async {
+  Future<void> login({required String email, required String password}) async {
     token = await AuthServices().login(email: email, password: password);
     //this.user = user;
     _setToken(token[1], token[2]);
@@ -25,13 +26,12 @@ class AuthProvider extends ChangeNotifier {
   }
 
   bool isAuth() {
-    return (user != null);
+    return (user != null && token[0].isEmpty);
   }
 
   Future<void> initAuth() async {
     await _getToken();
     if (isAuth()) {
-      //user = User.fromJson({'email': token[1], 'password': token[2]});
       Client.dio.options.headers = {
         HttpHeaders.authorizationHeader: 'Bearer ${token[2]}',
       };

@@ -174,6 +174,10 @@ class _SavingPageState extends State<SavingPage> {
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: addGoal,
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 16, horizontal: 20)),
                     child: Text(
                       'Submit',
                       style: TextStyle(
@@ -181,10 +185,6 @@ class _SavingPageState extends State<SavingPage> {
                           fontWeight: FontWeight.bold,
                           fontSize: 18),
                     ),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 16, horizontal: 20)),
                   ),
                 ],
               ),

@@ -4,16 +4,17 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class SignupPage extends StatelessWidget {
-  SignupPage({super.key});
+class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
   final _formKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
   @override
   Widget build(BuildContext context) {
+    AuthProvider provider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sign up"),
+        title: const Text("Login"),
       ),
       resizeToAvoidBottomInset: false,
       body: Padding(
@@ -22,7 +23,7 @@ class SignupPage extends StatelessWidget {
           key: _formKey,
           child: Column(
             children: [
-              const Text("Sign in"),
+              const Text("Login"),
               TextFormField(
                 decoration: const InputDecoration(hintText: 'Email'),
                 validator: (value) {
@@ -45,12 +46,16 @@ class SignupPage extends StatelessWidget {
                 },
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (!_formKey.currentState!.validate()) return;
                   _formKey.currentState!.save();
-                  Provider.of<AuthProvider>(context, listen: false)
-                      .signup(email: email, password: password);
-                  GoRouter.of(context).pop();
+                  await provider.login(email: email, password: password);
+                  if (provider.token[0].isEmpty) {
+                    GoRouter.of(context).pop();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(provider.token[0])));
+                  }
                 },
                 child: const Text("Sign in"),
               )

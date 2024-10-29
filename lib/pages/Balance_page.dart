@@ -31,10 +31,12 @@ class BalancePage extends StatelessWidget {
         shrinkWrap: true,
         itemCount: history.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            //shape: Border.all(),
-            leading: Text(history[index][0]),
-            trailing: Text("${history[index][1]}"),
+          return Container(
+            decoration: BoxDecoration(border: Border(bottom: BorderSide())),
+            child: ListTile(
+              leading: Text(history[index][0]),
+              trailing: Text("${history[index][1]}"),
+            ),
           );
         }),
     ListView.builder(
@@ -100,7 +102,6 @@ class BalancePage extends StatelessWidget {
           )
         ],
       ),
-      bottomNavigationBar: navbar(),
     );
   }
 }

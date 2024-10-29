@@ -1,14 +1,23 @@
+import 'package:burgan_assistant/providers/stocks_provider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
+//import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class InvestPage extends StatelessWidget {
+class InvestPage extends StatefulWidget {
+  const InvestPage({super.key});
+
+  @override
+  State<InvestPage> createState() => _InvestPageState();
+}
+
+class _InvestPageState extends State<InvestPage> {
   final List<Map<String, dynamic>> myStocks = [
     {
       'company': 'Apple',
       'price': 175.50,
       'isUp': true,
-      'imagePath': 'images/apple.jpeg',
+      'imagePath': 'assets/images/apple.jpeg',
       'description':
           'Apple Inc. designs, manufactures, and markets consumer electronics, computer software, and online services.',
     },
@@ -16,7 +25,7 @@ class InvestPage extends StatelessWidget {
       'company': 'McDonald\'s',
       'price': 95.30,
       'isUp': false,
-      'imagePath': 'images/mcdon.jpeg',
+      'imagePath': 'assets/images/mcdon.jpeg',
       'description':
           'McDonald\'s Corporation is an American fast-food company, serving more than 69 million customers daily in over 100 countries.',
     },
@@ -27,7 +36,7 @@ class InvestPage extends StatelessWidget {
       'company': 'Amazon',
       'price': 215.75,
       'isUp': true,
-      'imagePath': 'images/amazon.png',
+      'imagePath': 'assets/images/amazon.png',
       'description':
           'Amazon.com, Inc. is an American multinational technology company focusing on e-commerce, cloud computing, and artificial intelligence.',
     },
@@ -35,7 +44,7 @@ class InvestPage extends StatelessWidget {
       'company': 'Google',
       'price': 135.20,
       'isUp': false,
-      'imagePath': 'images/google.png',
+      'imagePath': 'assets/images/google.png',
       'description':
           'Google LLC is a multinational technology company specializing in Internet-related services and products.',
     },
@@ -43,7 +52,7 @@ class InvestPage extends StatelessWidget {
       'company': 'Facebook',
       'price': 85.50,
       'isUp': true,
-      'imagePath': 'images/facebook.png',
+      'imagePath': 'assets/images/facebook.png',
       'description':
           'Meta Platforms, Inc., formerly known as Facebook, Inc., is an American multinational technology conglomerate.',
     },
@@ -51,7 +60,7 @@ class InvestPage extends StatelessWidget {
       'company': 'Microsoft',
       'price': 120.00,
       'isUp': true,
-      'imagePath': 'images/microsoft.png',
+      'imagePath': 'assets/images/microsoft.png',
       'description':
           'Microsoft Corporation is an American multinational technology company that develops, manufactures, licenses, supports, and sells computer software, electronics, and personal computers.',
     },
@@ -59,7 +68,7 @@ class InvestPage extends StatelessWidget {
       'company': 'Tesla',
       'price': 160.00,
       'isUp': false,
-      'imagePath': 'images/tesla.png',
+      'imagePath': 'assets/images/tesla.png',
       'description':
           'Tesla, Inc. is an American electric vehicle and clean energy company.',
     },
@@ -91,7 +100,9 @@ class InvestPage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Column(
-              children: myStocks
+              children: context
+                  .watch<StocksProvider>()
+                  .myStocks
                   .map((stock) => buildStockCard(stock, context))
                   .toList(),
             ),
@@ -314,6 +325,10 @@ class _StockDetailPageState extends State<StockDetailPage> {
                                     Navigator.of(context)
                                         .pop(); // Close the dialog
                                     _showPurchaseSuccessDialog(); // Show success message
+                                    // TODO update investment page
+                                    Provider.of<StocksProvider>(context,
+                                            listen: false)
+                                        .addStock(widget.stock, totalPrice);
                                   },
                                 ),
                               ],
