@@ -2,7 +2,7 @@ import 'package:burgan_assistant/pages/MainPage.dart';
 import 'package:flutter/material.dart';
 import 'package:burgan_assistant/pages/Saving_page.dart';
 import 'package:burgan_assistant/pages/Financing_page.dart';
-import 'package:burgan_assistant/pages/Investmentpage.dart';
+import 'package:burgan_assistant/pages/investment_page.dart';
 
 void main() {
   runApp(MyApp());

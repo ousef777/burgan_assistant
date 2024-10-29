@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:burgan_assistant/pages/Saving_page.dart';
 import 'package:burgan_assistant/pages/Financing_page.dart';
-import 'package:burgan_assistant/pages/InvestmentPage.dart'; // Import the InvestPage
+import 'package:burgan_assistant/pages/investment_page.dart'; // Import the InvestPage
 
 class MainPage extends StatefulWidget {
   @override

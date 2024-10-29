@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:burgan_assistant/pages/Saving_page.dart';
 import 'request_appointment_page.dart'; // Import the new page
-import 'InvestmentPage.dart';
+import 'investment_page.dart';
 
 class FinancingPage extends StatefulWidget {
   @override
