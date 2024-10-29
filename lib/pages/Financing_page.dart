@@ -13,6 +13,7 @@ class _FinancingPageState extends State<FinancingPage> {
   String _selectedFinancial = 'Car Financing'; // Default selection
   double _salary = 0;
   int _installmentDuration = 1; // Default to 1 month
+  double _financingAmount = 1000; // Default financing amount
   String _installmentResult = '';
 
   void _onItemTapped(int index) {
@@ -30,9 +31,8 @@ class _FinancingPageState extends State<FinancingPage> {
   }
 
   void _calculateInstallment() {
-    // Calculate installment based on salary and duration
-    if (_salary > 0 && _installmentDuration > 0) {
-      double installment = _salary / _installmentDuration; // Simple calculation
+    if (_financingAmount > 0 && _salary > 0 && _installmentDuration > 0) {
+      double installment = (_financingAmount + _salary) / _installmentDuration;
       setState(() {
         _installmentResult =
             'Your monthly installment: KD ${installment.toStringAsFixed(2)}';
@@ -42,6 +42,18 @@ class _FinancingPageState extends State<FinancingPage> {
         _installmentResult = 'Please enter valid values.';
       });
     }
+  }
+
+  void _updateFinancingAmountOptions() {
+    setState(() {
+      if (_selectedFinancial == 'Car Financing') {
+        _financingAmount = 1000;
+      } else if (_selectedFinancial == 'Home Financing') {
+        _financingAmount = 5000;
+      } else if (_selectedFinancial == 'Study Financing') {
+        _financingAmount = 1500;
+      }
+    });
   }
 
   @override
@@ -57,7 +69,7 @@ class _FinancingPageState extends State<FinancingPage> {
           ),
         ),
         backgroundColor: Colors.white,
-        elevation: 0, // Remove shadow
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -85,7 +97,6 @@ class _FinancingPageState extends State<FinancingPage> {
               ),
             ),
             SizedBox(height: 20),
-            // Finance heading
             Text(
               'Finance',
               style: TextStyle(
@@ -95,13 +106,11 @@ class _FinancingPageState extends State<FinancingPage> {
               ),
             ),
             SizedBox(height: 10),
-            // Description paragraph
             Text(
-              'Our financing options offer flexible solutions tailored to your needs. Whether you’re looking to finance a car, a home, or your studies, Burgan Bank in Kuwait is here to support you.',
+              'Our financing options offer flexible solutions tailored to your needs.',
               style: TextStyle(fontSize: 16, color: Colors.black),
             ),
             SizedBox(height: 20),
-            // New section for calculating installment
             Text(
               "Let's calculate how much we will get from your salary monthly:",
               style: TextStyle(
@@ -111,7 +120,6 @@ class _FinancingPageState extends State<FinancingPage> {
               ),
             ),
             SizedBox(height: 10),
-            // New section for choosing financial option
             Text(
               "Choose your Financial:",
               style: TextStyle(
@@ -121,12 +129,12 @@ class _FinancingPageState extends State<FinancingPage> {
               ),
             ),
             SizedBox(height: 10),
-            // Dropdown for selecting financial option
             DropdownButtonFormField<String>(
               value: _selectedFinancial,
               onChanged: (String? newValue) {
                 setState(() {
                   _selectedFinancial = newValue!;
+                  _updateFinancingAmountOptions();
                 });
               },
               items: <String>[
@@ -139,14 +147,47 @@ class _FinancingPageState extends State<FinancingPage> {
                   child: Text(value, style: TextStyle(color: Colors.black)),
                 );
               }).toList(),
+              decoration: InputDecoration(border: OutlineInputBorder()),
             ),
             SizedBox(height: 20),
-            // Text field for salary input
+            Text(
+              "Select Financing Amount:",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.black54,
+              ),
+            ),
+            DropdownButtonFormField<double>(
+              value: _financingAmount,
+              onChanged: (double? newValue) {
+                setState(() {
+                  _financingAmount = newValue!;
+                });
+              },
+              items: List.generate(
+                _selectedFinancial == 'Car Financing'
+                    ? 25
+                    : _selectedFinancial == 'Home Financing'
+                        ? 50
+                        : 15,
+                (index) => DropdownMenuItem<double>(
+                  value: (index + 1) * 1000,
+                  child: Text(
+                    'KD ${(index + 1) * 1000}',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ),
+              decoration: InputDecoration(border: OutlineInputBorder()),
+            ),
+            SizedBox(height: 20),
             TextField(
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: 'Put your salary:',
                 labelStyle: TextStyle(color: Colors.black),
+                border: OutlineInputBorder(),
               ),
               onChanged: (value) {
                 setState(() {
@@ -155,7 +196,6 @@ class _FinancingPageState extends State<FinancingPage> {
               },
             ),
             SizedBox(height: 10),
-            // Dropdown for installment duration
             Text(
               "Installment Duration:",
               style: TextStyle(
@@ -165,9 +205,10 @@ class _FinancingPageState extends State<FinancingPage> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // Duration dropdown with smaller width
                 Expanded(
+                  flex: 2,
                   child: DropdownButtonFormField<int>(
                     value: _installmentDuration,
                     onChanged: (int? newValue) {
@@ -189,29 +230,31 @@ class _FinancingPageState extends State<FinancingPage> {
                               style: TextStyle(color: Colors.black)),
                         ),
                     ],
+                    decoration: InputDecoration(border: OutlineInputBorder()),
                   ),
                 ),
-                SizedBox(width: 10), // Space between dropdown and button
-                ElevatedButton(
-                  onPressed: _calculateInstallment,
-                  child: Text(
-                    'Calculate',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                SizedBox(width: 10),
+                Expanded(
+                  flex: 2, // Slightly smaller flex for the "Calculate" button
+                  child: ElevatedButton(
+                    onPressed: _calculateInstallment,
+                    child: Text(
+                      'Calculate',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black, // Button background color
-                    padding: EdgeInsets.symmetric(
-                        vertical: 16.0, horizontal: 16.0), // Increased padding
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                    ),
                   ),
                 ),
               ],
             ),
             SizedBox(height: 20),
-            // Displaying the installment result
             Text(
               _installmentResult,
               style: TextStyle(
@@ -220,7 +263,6 @@ class _FinancingPageState extends State<FinancingPage> {
                   color: Colors.black),
             ),
             SizedBox(height: 20),
-            // Place a request button, centered
             Center(
               child: ElevatedButton(
                 onPressed: () {
@@ -239,42 +281,16 @@ class _FinancingPageState extends State<FinancingPage> {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black, // Button background color
-                  padding: EdgeInsets.symmetric(
-                      vertical: 16.0, horizontal: 32.0), // Increased padding
+                  backgroundColor: Colors.black,
+                  padding:
+                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
                 ),
               ),
             ),
           ],
         ),
       ),
-      // Bottom navigation bar with "Financing" and "Saving" options
-      // bottomNavigationBar: BottomNavigationBar(
-      //   currentIndex: _selectedIndex,
-      //   selectedItemColor: Colors.black, // Ensures selected icon is black
-      //   unselectedItemColor: Colors.black,
-      //   onTap: _onItemTapped,
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.monetization_on),
-      //       label: 'Financing',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.wallet),
-      //       label: 'Saving',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.trending_up),
-      //       label: 'Investment',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       label: 'Home',
-      //     ),
-      //   ],
-      // ),
-      backgroundColor:
-          Colors.white, // Set the background color of the screen to white
+      backgroundColor: Colors.white,
     );
   }
 }
