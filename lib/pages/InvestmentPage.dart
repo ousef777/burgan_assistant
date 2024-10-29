@@ -234,16 +234,14 @@ class _StockDetailPageState extends State<StockDetailPage> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16),
-            // Moved Price section down and made it bold
             Text(
               'Price: KD ${widget.stock['price']}',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16), // Increased space
+            SizedBox(height: 16),
             Center(
               child: Column(
                 children: [
-                  // Only show quantity and total for stocks other than Apple and McDonald's
                   if (widget.stock['company'] != 'Apple' &&
                       widget.stock['company'] != 'McDonald\'s')
                     Row(
@@ -277,7 +275,7 @@ class _StockDetailPageState extends State<StockDetailPage> {
                         ),
                       ],
                     ),
-                  SizedBox(height: 16), // Increased space
+                  SizedBox(height: 16),
                   if (widget.stock['company'] != 'Apple' &&
                       widget.stock['company'] != 'McDonald\'s')
                     Text(
@@ -285,19 +283,48 @@ class _StockDetailPageState extends State<StockDetailPage> {
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                  SizedBox(height: 20), // Increased space
+                  SizedBox(height: 20),
                   if (widget.stock['company'] != 'Apple' &&
                       widget.stock['company'] != 'McDonald\'s')
                     ElevatedButton(
                       onPressed: () {
-                        // Implement buy action
+                        // Show confirmation dialog when the buy button is pressed
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Confirm Purchase'),
+                              content: Text(
+                                'Are you sure you want to buy $quantity shares of ${widget.stock['company']} for KD $totalPrice?',
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: Text('Cancel'),
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // Close the dialog
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text('Confirm'),
+                                  onPressed: () {
+                                    // Handle the purchase logic here
+                                    Navigator.of(context)
+                                        .pop(); // Close the dialog
+                                    _showPurchaseSuccessDialog(); // Show success message
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       },
                       child: Text('Buy'),
                     ),
                 ],
               ),
             ),
-            SizedBox(height: 16), // Increased space
+            SizedBox(height: 16),
             Text(
               'Stock History',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -324,6 +351,29 @@ class _StockDetailPageState extends State<StockDetailPage> {
           ],
         ),
       ),
+    );
+  }
+
+  // Function to show the purchase success message
+  void _showPurchaseSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Purchase Successful'),
+          content: Text(
+            'You have successfully purchased $quantity shares of ${widget.stock['company']}.',
+          ),
+          actions: [
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the success dialog
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
