@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class SignupPage extends StatelessWidget {
+  SignupPage({super.key});
   final _formKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Login"),
+        title: const Text("Sign up"),
       ),
       resizeToAvoidBottomInset: false,
       body: Padding(
@@ -22,7 +22,7 @@ class LoginPage extends StatelessWidget {
           key: _formKey,
           child: Column(
             children: [
-              const Text("Sign in"),
+              const Text("Sign up"),
               TextFormField(
                 decoration: const InputDecoration(hintText: 'Email'),
                 validator: (value) {
@@ -49,7 +49,7 @@ class LoginPage extends StatelessWidget {
                   if (!_formKey.currentState!.validate()) return;
                   _formKey.currentState!.save();
                   Provider.of<AuthProvider>(context, listen: false)
-                      .login(email: email, password: password);
+                      .signup(email: email, password: password);
                   GoRouter.of(context).pop();
                 },
                 child: const Text("Sign in"),

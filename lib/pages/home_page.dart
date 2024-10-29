@@ -79,14 +79,19 @@ class HomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Card(
-                  child: Container(
-                      padding: const EdgeInsets.all(50.0),
-                      child: const Text(
-                        "Balance",
-                        style: TextStyle(fontSize: 80),
-                        textAlign: TextAlign.center,
-                      )),
+                GestureDetector(
+                  onTap: () {
+                    GoRouter.of(context).push('/balance');
+                  },
+                  child: Card(
+                    child: Container(
+                        padding: const EdgeInsets.all(50.0),
+                        child: const Text(
+                          "Balance",
+                          style: TextStyle(fontSize: 60),
+                          textAlign: TextAlign.center,
+                        )),
+                  ),
                 ),
                 SizedBox(
                   height: 170,

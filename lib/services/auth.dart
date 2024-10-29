@@ -30,8 +30,9 @@ class AuthServices {
       token[2] = response.data["data"]["token"];
       print(token);
     } on DioException catch (error) {
-      print(error.response!.statusMessage);
-      token[0] = "${error.response!.statusCode}";
+      print(error.response!.data["message"]);
+      print(error.response!.statusCode);
+      token[0] = "${error.response!.data["message"]}";
     }
     return token;
   }
