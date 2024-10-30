@@ -3,6 +3,7 @@ import 'package:burgan_assistant/pages/home_page.dart';
 import 'package:burgan_assistant/pages/login_page.dart';
 import 'package:burgan_assistant/pages/Financing_page.dart';
 import 'package:burgan_assistant/pages/MainPage.dart';
+import 'package:burgan_assistant/pages/register_page.dart';
 import 'package:burgan_assistant/providers/auth_provider.dart';
 import 'package:burgan_assistant/providers/stocks_provider.dart';
 import 'package:burgan_assistant/pages/signup_page.dart';
@@ -40,6 +41,10 @@ class MainApp extends StatelessWidget {
     routes: [
       GoRoute(
         path: '/',
+        builder: (context, state) => RegisterPage(),
+      ),
+      GoRoute(
+        path: '/home',
         builder: (context, state) => HomePage(),
       ),
       GoRoute(

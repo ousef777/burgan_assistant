@@ -11,6 +11,7 @@ class SignupPage extends StatelessWidget {
   String password = "";
   @override
   Widget build(BuildContext context) {
+    AuthProvider provider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Sign up"),
@@ -45,12 +46,16 @@ class SignupPage extends StatelessWidget {
                 },
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (!_formKey.currentState!.validate()) return;
                   _formKey.currentState!.save();
-                  Provider.of<AuthProvider>(context, listen: false)
-                      .signup(email: email, password: password);
-                  GoRouter.of(context).pop();
+                  await provider.signup(email: email, password: password);
+                  if (provider.token[0].isEmpty) {
+                    GoRouter.of(context).pop();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(provider.token[0])));
+                  }
                 },
                 child: const Text("Sign in"),
               )

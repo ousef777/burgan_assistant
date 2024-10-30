@@ -16,6 +16,61 @@ class HomePage extends StatelessWidget {
           title: const Text("Home Page"),
           elevation: 12,
         ),
+        drawer: SafeArea(
+          child: Drawer(
+            child: FutureBuilder(
+                future: context.watch<AuthProvider>().initAuth(),
+                builder: (context, snapshot) {
+                  return Consumer<AuthProvider>(
+                      builder: (context, provider, _) {
+                    return (provider.isAuth())
+                        ? ListView(
+                            padding: EdgeInsets.zero,
+                            children: [
+                              Text(
+                                "Welcome ${provider.user!.email}",
+                              ),
+                              ListTile(
+                                title: Text("Log out"),
+                                trailing: const Icon(Icons.how_to_reg),
+                                onTap: () {
+                                  provider.logout();
+                                  GoRouter.of(context).go('/');
+                                },
+                              ),
+                              ListTile(
+                                title: Text("Profile"),
+                                trailing: const Icon(Icons.how_to_reg),
+                                onTap: () {
+                                  GoRouter.of(context).push('/profile');
+                                },
+                              )
+                            ],
+                          )
+                        : ListView(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  GoRouter.of(context).push('/login');
+                                },
+                                child: const ListTile(
+                                  title: Text("Login"),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  GoRouter.of(context).push('/signup');
+                                },
+                                child: ListTile(
+                                  title: Text("Sign up"),
+                                ),
+                              )
+                            ],
+                          );
+                  });
+                }),
+          ),
+        ),
         body: SingleChildScrollView(
           child: Center(
             child: Column(

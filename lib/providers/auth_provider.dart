@@ -10,7 +10,7 @@ class AuthProvider extends ChangeNotifier {
   User? user;
 
   Future<void> signup({required String email, required String password}) async {
-    token[2] = await AuthServices().signup(email: email, password: password);
+    token = await AuthServices().signup(email: email, password: password);
     token[1] = email;
     //_setToken();
     //print(token);
