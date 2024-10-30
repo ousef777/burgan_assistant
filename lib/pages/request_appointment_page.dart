@@ -128,6 +128,10 @@ class _RequestAppointmentPageState extends State<RequestAppointmentPage> {
               children: [
                 ElevatedButton(
                   onPressed: _submitRequest,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black, // Black background
+                    minimumSize: Size(150, 50), // Minimum size for button
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 15, horizontal: 30), // Increased button size
@@ -140,15 +144,15 @@ class _RequestAppointmentPageState extends State<RequestAppointmentPage> {
                           ),
                     ), // White text
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black, // Black background
-                    minimumSize: Size(150, 50), // Minimum size for button
-                  ),
                 ),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context); // Cancel action
                   },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black, // Black background
+                    minimumSize: Size(150, 50), // Minimum size for button
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 15, horizontal: 30), // Increased button size
@@ -160,10 +164,6 @@ class _RequestAppointmentPageState extends State<RequestAppointmentPage> {
                           fontSize: 18 // Increased font size
                           ),
                     ), // White text
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black, // Black background
-                    minimumSize: Size(150, 50), // Minimum size for button
                   ),
                 ),
               ],

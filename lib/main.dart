@@ -1,4 +1,5 @@
 import 'package:burgan_assistant/pages/Balance_page.dart';
+import 'package:burgan_assistant/pages/editGoal_page.dart';
 import 'package:burgan_assistant/pages/home_page.dart';
 import 'package:burgan_assistant/pages/login_page.dart';
 import 'package:burgan_assistant/pages/Financing_page.dart';
@@ -41,7 +42,7 @@ class MainApp extends StatelessWidget {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => RegisterPage(),
+        builder: (context, state) => HomePage(),
       ),
       GoRoute(
         path: '/home',
@@ -56,9 +57,13 @@ class MainApp extends StatelessWidget {
         builder: (context, state) => LoginPage(),
       ),
       GoRoute(
-        path: '/balance',
-        builder: (context, state) => MainPage(),
+        path: '/main',
+        builder: (context, state) => MainPage(index: state.extra as int),
       ),
+      // GoRoute(
+      //   path: '/edit',
+      //   builder: (context, state) => EditgoalPage(),
+      // ),
       // GoRoute(
       //   path: '/update/:tipId',
       //   builder: (context, state) {

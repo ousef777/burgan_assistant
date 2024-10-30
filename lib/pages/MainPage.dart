@@ -5,13 +5,16 @@ import 'package:burgan_assistant/pages/Financing_page.dart';
 import 'package:burgan_assistant/pages/investment_page.dart'; // Import the InvestPage
 
 class MainPage extends StatefulWidget {
+  final int index;
+  const MainPage({super.key, required this.index});
+
   @override
-  _MainPageState createState() => _MainPageState();
+  _MainPageState createState() => _MainPageState(index);
 }
 
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0; // Default to SavingPage
-
+  _MainPageState(this._selectedIndex);
   // List of pages to navigate
   final List<Widget> _pages = [
     BalancePage(),
