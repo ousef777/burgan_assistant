@@ -58,7 +58,6 @@ class HomePage extends StatelessWidget {
                                 title: Text("Login"),
                               ),
                             ),
-<<<<<<< HEAD
                             GestureDetector(
                               onTap: () {
                                 GoRouter.of(context).push('/signup');
@@ -66,8 +65,7 @@ class HomePage extends StatelessWidget {
                               child: ListTile(
                                 title: Text("Sign up"),
                               ),
-                            )
-=======
+                            ),
                             const SizedBox(height: 4),
                             Row(
                               children: const [
@@ -97,7 +95,6 @@ class HomePage extends StatelessWidget {
                                 ),
                               ],
                             ),
->>>>>>> 4c7d61efb5df0bf84a16c62f3e55b31d80ca4426
                           ],
                         );
                 });
