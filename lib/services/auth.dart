@@ -4,18 +4,19 @@ import 'package:burgan_assistant/services/client.dart';
 import 'package:dio/dio.dart';
 
 class AuthServices {
-  Future<String> signup(
+  Future<List<String>> signup(
       {required String email, required String password}) async {
-    late String token;
+    List<String> token = ["", "", ""];
     try {
       Response response = await Client.dio.post('/signup', data: {
         "email": email,
         "password": password,
       });
-      token = response.data["data"]["token"];
+      token[2] = response.data["data"]["token"];
       print(token);
     } on DioException catch (error) {
-      print(error);
+      token[0] = "${error.response!.data["message"]}";
+      //print(error);
     }
     return token;
   }
@@ -30,8 +31,8 @@ class AuthServices {
       token[2] = response.data["data"]["token"];
       print(token);
     } on DioException catch (error) {
-      print(error.response!.data["message"]);
-      print(error.response!.statusCode);
+      //print(error.response!.data["message"]);
+      //print(error.response!.statusCode);
       token[0] = "${error.response!.data["message"]}";
     }
     return token;

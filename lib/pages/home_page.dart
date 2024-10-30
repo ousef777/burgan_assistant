@@ -39,6 +39,7 @@ class HomePage extends StatelessWidget {
                                 trailing: const Icon(Icons.how_to_reg),
                                 onTap: () {
                                   provider.logout();
+                                  GoRouter.of(context).go('/');
                                 },
                               ),
                               ListTile(
