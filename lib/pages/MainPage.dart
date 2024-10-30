@@ -35,6 +35,8 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       body: _pages[_selectedIndex], // Display the selected page
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
+        showUnselectedLabels: true,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.money),
