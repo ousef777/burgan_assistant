@@ -191,6 +191,16 @@ class _EditgoalPageState extends State<EditgoalPage> {
                           amount:
                               double.tryParse(goalAmountController.text) ?? 0,
                           duration: selectedDuration ?? 0));
+                      ScaffoldMessenger.of(context).showMaterialBanner(
+                          MaterialBanner(
+                              content: Text("Goal has been updated"),
+                              actions: [
+                            TextButton(
+                              onPressed: ScaffoldMessenger.of(context)
+                                  .removeCurrentMaterialBanner,
+                              child: Text('DISMISS'),
+                            ),
+                          ]));
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
@@ -221,37 +231,6 @@ class _EditgoalPageState extends State<EditgoalPage> {
                 .toList(),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget buildPoint(
-      {required IconData icon,
-      required String title,
-      required String description}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, size: 24, color: Colors.black),
-          SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title,
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
-                SizedBox(height: 4),
-                Text(description,
-                    style: TextStyle(fontSize: 16, color: Colors.black)),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -1,5 +1,8 @@
+import 'package:burgan_assistant/main.dart';
 import 'package:burgan_assistant/pages/Financing_page.dart';
+import 'package:burgan_assistant/providers/goals_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SavingPage extends StatefulWidget {
   @override
@@ -10,7 +13,7 @@ class _SavingPageState extends State<SavingPage> {
   final List<Goal> goals = [];
   final TextEditingController goalNameController = TextEditingController();
   final TextEditingController goalAmountController = TextEditingController();
-  String? selectedDuration;
+  int? selectedDuration;
   double progress = 0.0;
 
   int _selectedIndex = 1; // Default index for SavingPage
@@ -45,6 +48,8 @@ class _SavingPageState extends State<SavingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+    ScrollController scrollController = ScrollController();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -57,6 +62,7 @@ class _SavingPageState extends State<SavingPage> {
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
+        controller: scrollController,
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,69 +130,98 @@ class _SavingPageState extends State<SavingPage> {
                 border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextField(
-                    controller: goalNameController,
-                    decoration: InputDecoration(
-                        labelText: 'Goal Name',
-                        border: OutlineInputBorder(),
-                        labelStyle: TextStyle(color: Colors.black)),
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  SizedBox(height: 16),
-                  TextField(
-                    controller: goalAmountController,
-                    decoration: InputDecoration(
-                        labelText: 'How much do you want to save?',
-                        border: OutlineInputBorder(),
-                        labelStyle: TextStyle(color: Colors.black)),
-                    keyboardType: TextInputType.number,
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  SizedBox(height: 16),
-                  DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
-                        labelText: 'Duration',
-                        border: OutlineInputBorder(),
-                        labelStyle: TextStyle(color: Colors.black)),
-                    dropdownColor: Colors.white,
-                    items: [
-                      '1 month',
-                      '2 months',
-                      '3 months',
-                      '6 months',
-                      '1 year'
-                    ].map((String duration) {
-                      return DropdownMenuItem<String>(
-                        value: duration,
-                        child: Text(duration,
-                            style: TextStyle(color: Colors.black)),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedDuration = newValue;
-                      });
-                    },
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: addGoal,
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 16, horizontal: 20)),
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      controller: goalNameController,
+                      decoration: InputDecoration(
+                          labelText: 'Goal Name',
+                          border: OutlineInputBorder(),
+                          labelStyle: TextStyle(color: Colors.black)),
+                      style: TextStyle(color: Colors.black),
+                      validator: (value) {
+                        if (value!.isEmpty) return "fill in the blanks";
+                        return null;
+                      },
                     ),
-                  ),
-                ],
+                    SizedBox(height: 16),
+                    TextFormField(
+                      controller: goalAmountController,
+                      decoration: InputDecoration(
+                          labelText: 'How much do you want to save?',
+                          border: OutlineInputBorder(),
+                          labelStyle: TextStyle(color: Colors.black)),
+                      keyboardType: TextInputType.number,
+                      style: TextStyle(color: Colors.black),
+                      validator: (value) {
+                        if (value!.isEmpty) return "fill in the blanks";
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 16),
+                    DropdownButtonFormField<int>(
+                      value: selectedDuration,
+                      validator: (value) {
+                        if (value == null) return "fill in the blanks";
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          labelText: 'Duration',
+                          border: OutlineInputBorder(),
+                          labelStyle: TextStyle(color: Colors.black)),
+                      dropdownColor: Colors.white,
+                      items: [1, 3, 6, 12].map((int duration) {
+                        return DropdownMenuItem<int>(
+                          value: duration,
+                          child: Text("$duration month",
+                              style: TextStyle(color: Colors.black)),
+                        );
+                      }).toList(),
+                      onChanged: (int? newValue) {
+                        setState(() {
+                          selectedDuration = newValue;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (!formKey.currentState!.validate()) return;
+                        formKey.currentState!.save();
+                        context.read<GoalsProvider>().addGoal(Goal(
+                            name: goalNameController.text,
+                            amount: double.parse(goalAmountController.text),
+                            duration: selectedDuration!));
+                        scrollController
+                            .jumpTo(scrollController.position.minScrollExtent);
+                        ScaffoldMessenger.of(context).showMaterialBanner(
+                            MaterialBanner(
+                                content: Text("Goal has been created"),
+                                actions: [
+                              TextButton(
+                                onPressed: ScaffoldMessenger.of(context)
+                                    .removeCurrentMaterialBanner,
+                                child: Text('DISMISS'),
+                              ),
+                            ]));
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 20)),
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 20),
@@ -254,13 +289,13 @@ class _SavingPageState extends State<SavingPage> {
   }
 }
 
-class Goal {
-  final String name;
-  final double amount;
-  final String duration;
+// class Goal {
+//   final String name;
+//   final double amount;
+//   final String duration;
 
-  Goal({required this.name, required this.amount, required this.duration});
-}
+//   Goal({required this.name, required this.amount, required this.duration});
+// }
 
 class GoalCard extends StatelessWidget {
   final Goal goal;
