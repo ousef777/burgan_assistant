@@ -58,6 +58,7 @@ class HomePage extends StatelessWidget {
                                 title: Text("Login"),
                               ),
                             ),
+<<<<<<< HEAD
                             GestureDetector(
                               onTap: () {
                                 GoRouter.of(context).push('/signup');
@@ -66,6 +67,37 @@ class HomePage extends StatelessWidget {
                                 title: Text("Sign up"),
                               ),
                             )
+=======
+                            const SizedBox(height: 4),
+                            Row(
+                              children: const [
+                                Text(
+                                  "15586 KWD",
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Icon(Icons.credit_card,
+                                    color: Colors.blue, size: 20),
+                                Text(
+                                  "•••• 6154  VISA",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                              ],
+                            ),
+>>>>>>> 4c7d61efb5df0bf84a16c62f3e55b31d80ca4426
                           ],
                         );
                 });
