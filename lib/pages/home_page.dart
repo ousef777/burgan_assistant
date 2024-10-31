@@ -16,42 +16,75 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
     return Scaffold(
+        backgroundColor: const Color(0xFFE5F1F9),
         appBar: AppBar(
-          title: const Text("Home Page"),
+          centerTitle: true,
+          title: const Text(
+            "Home Page",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           elevation: 12,
         ),
         drawer: Drawer(
-            child: ListView(
-          children: [
-            Container(
-              decoration: BoxDecoration(color: Colors.orange),
-              //margin: EdgeInsets.all(8.0),
-              padding: EdgeInsets.only(top: 100, bottom: 10),
-              child: Row(
-                children: [
-                  Icon(Icons.person),
-                  Text(
-                    "Welcome User",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
-            ),
-            ListTile(
-              title: Text("Profile"),
-            ),
-            ListTile(
-              title: Text("Branches"),
-            ),
-            ListTile(
-              title: Text("Log out"),
-            ),
-            Container(
-              alignment: Alignment.bottomLeft,
-              child: Icon(Icons.settings),
-            )
-          ],
-        )
+            child: FutureBuilder(
+                future: context.read<AuthProvider>().initAuth(),
+                builder: (context, snapshot) {
+                  return ListView(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(color: Colors.orange),
+                        //margin: EdgeInsets.all(8.0),
+                        padding:
+                            EdgeInsets.only(top: 100, bottom: 10, left: 10),
+                        child: Row(
+                          children: [
+                            //Icon(Icons.person),
+                            Text(
+                              "Welcome User",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
+                        ),
+                      ),
+                      ListTile(
+                        title: Text("Profile"),
+                        leading: Icon(Icons.person),
+                        onTap: () {
+                          GoRouter.of(context).push('/profile');
+                        },
+                      ),
+                      ListTile(
+                        title: Text("Branches"),
+                        leading: Icon(Icons.location_on_outlined),
+                        onTap: () {
+                          GoRouter.of(context).push('/branches');
+                        },
+                      ),
+                      ListTile(
+                        title: Text("Help and Services"),
+                        leading: Icon(Icons.headphones),
+                        onTap: () {
+                          GoRouter.of(context).push('/help');
+                        },
+                      ),
+                      ListTile(
+                        title: Text(
+                          "Log out",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        leading: Icon(Icons.logout),
+                        onTap: () {
+                          context.read<AuthProvider>().logout();
+                          GoRouter.of(context).go('/');
+                        },
+                      ),
+                      // Container(
+                      //   alignment: Alignment.bottomLeft,
+                      //   child: Icon(Icons.settings),
+                      // )
+                    ],
+                  );
+                })
             // FutureBuilder(
             //     future: context.watch<AuthProvider>().initAuth(),
             //     builder: (context, snapshot) {
@@ -120,6 +153,7 @@ class HomePage extends StatelessWidget {
                         GoRouter.of(context).push('/main', extra: 0);
                       },
                       child: Card(
+                        elevation: 5,
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
@@ -199,6 +233,8 @@ class HomePage extends StatelessWidget {
 
                   // Image Container with Button in Card (Saving Vault)
                   Card(
+                    elevation: 5,
+                    color: Colors.white,
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
@@ -299,6 +335,7 @@ class HomePage extends StatelessWidget {
                               GoRouter.of(context).push('/edit', extra: index);
                             },
                             child: Card(
+                              //color: const Color.fromARGB(255, 255, 179, 65),
                               elevation: 5,
                               margin: const EdgeInsets.symmetric(
                                   horizontal: 8.0, vertical: 8.0),
@@ -313,6 +350,7 @@ class HomePage extends StatelessWidget {
                                     Text(
                                       goal.name,
                                       style: const TextStyle(
+                                          //color: Colors.grey,
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
                                       textAlign: TextAlign.center,
@@ -350,6 +388,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 18),
 
+                  // Add goal button
                   ElevatedButton(
                       onPressed: () {
                         GoRouter.of(context).push('/main', extra: 1);
@@ -368,11 +407,12 @@ class HomePage extends StatelessWidget {
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ))),
-
                   const SizedBox(height: 18),
 
                   // TM Card
                   Card(
+                    elevation: 5,
+                    color: Colors.white,
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
@@ -436,6 +476,8 @@ class HomePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(
+                      elevation: 5,
+                      color: Colors.white,
                       margin: const EdgeInsets.symmetric(horizontal: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),

@@ -1,8 +1,10 @@
+//import 'package:burgan_assistant/providers/realStock_provider.dart';
 import 'package:burgan_assistant/providers/stocks_provider.dart';
 import 'package:flutter/material.dart';
 
 //import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+//import 'package:yahoo_finance_data_reader/yahoo_finance_data_reader.dart';
 
 class InvestPage extends StatefulWidget {
   const InvestPage({super.key});
@@ -76,6 +78,7 @@ class _InvestPageState extends State<InvestPage> {
 
   @override
   Widget build(BuildContext context) {
+    //context.read<RealstockProvider>().getStock();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -300,6 +303,10 @@ class _StockDetailPageState extends State<StockDetailPage> {
                   if (widget.stock['company'] != 'Apple' &&
                       widget.stock['company'] != 'McDonald\'s')
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 30)),
                       onPressed: () {
                         // Show confirmation dialog when the buy button is pressed
                         showDialog(
@@ -336,7 +343,13 @@ class _StockDetailPageState extends State<StockDetailPage> {
                           },
                         );
                       },
-                      child: Text('Buy'),
+                      child: Text(
+                        'Buy',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
                     ),
                 ],
               ),

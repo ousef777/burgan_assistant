@@ -51,6 +51,7 @@ class _SavingPageState extends State<SavingPage> {
     final formKey = GlobalKey<FormState>();
     ScrollController scrollController = ScrollController();
     return Scaffold(
+      backgroundColor: const Color(0xFFE5F1F9),
       appBar: AppBar(
         title: Text(
           'Saving',
@@ -209,7 +210,7 @@ class _SavingPageState extends State<SavingPage> {
                             ]));
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
+                          backgroundColor: Colors.blue,
                           padding: EdgeInsets.symmetric(
                               vertical: 16, horizontal: 20)),
                       child: Text(

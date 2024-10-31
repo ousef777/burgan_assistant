@@ -203,7 +203,7 @@ class _EditgoalPageState extends State<EditgoalPage> {
                           ]));
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
+                        backgroundColor: Colors.blue,
                         padding:
                             EdgeInsets.symmetric(vertical: 16, horizontal: 20)),
                     child: Text(

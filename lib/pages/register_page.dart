@@ -46,13 +46,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SizedBox(height: 40),
-                      Center(
-                        child: CircleAvatar(
-                          radius: 60,
-                          backgroundImage:
-                              AssetImage('assets/images/burgan.jpg'),
-                          backgroundColor: Colors.transparent,
-                        ),
+
+                      Image.asset(
+                        'assets/images/burgan.jpg', //'assets/AppIcons/playstore.png'
+                        width: 200,
+                        height: 200,
                       ),
                       const SizedBox(height: 20),
                       const Text(

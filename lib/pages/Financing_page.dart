@@ -59,6 +59,7 @@ class _FinancingPageState extends State<FinancingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFE5F1F9),
       appBar: AppBar(
         title: Text(
           'Financing',
@@ -247,7 +248,7 @@ class _FinancingPageState extends State<FinancingPage> {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
+                      backgroundColor: Colors.blue,
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                     ),
                   ),
@@ -281,7 +282,7 @@ class _FinancingPageState extends State<FinancingPage> {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
+                  backgroundColor: Colors.blue,
                   padding:
                       EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
                 ),
@@ -290,7 +291,6 @@ class _FinancingPageState extends State<FinancingPage> {
           ],
         ),
       ),
-      backgroundColor: Colors.white,
     );
   }
 }
