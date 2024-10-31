@@ -181,14 +181,18 @@ class BalancePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFE5F1F9),
       appBar: AppBar(
-        title: const Text("Balance Page"),
+        title: const Text(
+          "Balance Page",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Column(
         children: [
           // Main Card at the top with account details and shadow effect
           Card(
-            elevation: 4, // Adds elevation to give shadow effect
+            //elevation: 4, // Adds elevation to give shadow effect
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15), // Rounded corners
             ),

@@ -22,6 +22,7 @@ class AuthProvider extends ChangeNotifier {
     //this.user = user;
     _setToken(token[1], token[2]);
     //print(token);
+    user = User(email: email, token: token[2]);
     notifyListeners();
   }
 
@@ -35,7 +36,8 @@ class AuthProvider extends ChangeNotifier {
       Client.dio.options.headers = {
         HttpHeaders.authorizationHeader: 'Bearer ${token[2]}',
       };
-      //print('Bearer $token');
+      user = User(email: token[1], token: token[2]);
+      print('Bearer $token');
       notifyListeners();
     }
   }

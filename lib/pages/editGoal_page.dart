@@ -1,35 +1,62 @@
 import 'package:burgan_assistant/pages/Financing_page.dart';
+import 'package:burgan_assistant/pages/investment_page.dart';
+import 'package:burgan_assistant/providers/goals_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EditgoalPage extends StatefulWidget {
-  final (String, String, String) outcome;
-  const EditgoalPage({super.key, required this.outcome});
+  final int index;
+  const EditgoalPage({super.key, required this.index});
 
   @override
-  _EditgoalPageState createState() => _EditgoalPageState(outcome);
+  _EditgoalPageState createState() => _EditgoalPageState();
 }
 
 class _EditgoalPageState extends State<EditgoalPage> {
-  final List<Goal> goals = [];
-  String? selectedDuration;
+  // final List<Goal> goals = [];
+  int? selectedDuration;
   double progress = 0.0;
-  (String, String, String) outcome;
-  _EditgoalPageState(this.outcome);
+  //(String, int, int) outcome;
+  //_EditgoalPageState(this.outcome);
   final TextEditingController goalNameController = TextEditingController();
   final TextEditingController goalAmountController = TextEditingController();
-  void addGoal() {
-    final String goalName = goalNameController.text;
-    final double goalAmount = double.tryParse(goalAmountController.text) ?? 0;
-    if (goalName.isNotEmpty && goalAmount > 0 && selectedDuration != null) {
-      setState(() {
-        goals.add(Goal(
-            name: goalName, amount: goalAmount, duration: selectedDuration!));
-        goalNameController.clear();
-        goalAmountController.clear();
-        selectedDuration = null;
-      });
-    }
+
+  String? selectedGoalName;
+  //int? selectedDuration;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // index = widget.index;
+
+    var list = context.read<GoalsProvider>().list;
+
+    setValues(list[widget.index]);
   }
+
+  void setValues(Goal goal) {
+    selectedGoalName = goal.name;
+    selectedDuration = goal.duration;
+    goalNameController.text = goal.name;
+    goalAmountController.text = "${goal.amount}";
+  }
+
+  // void addGoal() {
+  //   final String goalName = goalNameController.text;
+  //   final double goalAmount = double.tryParse(goalAmountController.text) ?? 0;
+  //   if (goalName.isNotEmpty && goalAmount > 0 && selectedDuration != null) {
+  //     setState(() {
+  //       goals.add(Goal(
+  //           name: goalName,
+  //           amount: goalAmount,
+  //           duration: int.parse(selectedDuration!)));
+  //       goalNameController.clear();
+  //       goalAmountController.clear();
+  //       selectedDuration = null;
+  //     });
+  //   }
+  // }
 
   // void _onItemTapped(int index) {
   //   setState(() {
@@ -47,6 +74,8 @@ class _EditgoalPageState extends State<EditgoalPage> {
 
   @override
   Widget build(BuildContext context) {
+    var list = context.read<GoalsProvider>().list;
+    var goal = list.firstWhere((goal) => goal.name == selectedGoalName);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -81,35 +110,6 @@ class _EditgoalPageState extends State<EditgoalPage> {
                 ],
               ),
             ),
-            // SizedBox(height: 20),
-            // Text(
-            //   'Why you should Save?',
-            //   style: TextStyle(
-            //       fontSize: 24,
-            //       fontWeight: FontWeight.bold,
-            //       color: Colors.black),
-            // ),
-            // SizedBox(height: 20),
-            // buildPoint(
-            //     icon: Icons.savings,
-            //     title: 'Monthly Savings',
-            //     description:
-            //         'Your savings are automatically deducted and accumulate in your account.'),
-            // buildPoint(
-            //     icon: Icons.access_time,
-            //     title: 'Vacation? Car? Event?',
-            //     description:
-            //         'Set goals and allocate funds to specific savings targets.'),
-            // buildPoint(
-            //     icon: Icons.account_balance_wallet,
-            //     title: 'Instant Deposit',
-            //     description:
-            //         'As soon as you reach your goal amount, it’s deposited into your account.'),
-            // buildPoint(
-            //     icon: Icons.check_circle_outline,
-            //     title: 'Full Flexibility',
-            //     description:
-            //         'Cancel anytime without commitments or penalties.'),
             SizedBox(height: 20),
             Container(
               padding: EdgeInsets.all(16),
@@ -121,7 +121,28 @@ class _EditgoalPageState extends State<EditgoalPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextField(
+                  DropdownButtonFormField<Goal>(
+                    value: goal,
+                    decoration: InputDecoration(
+                        //labelText: 'Selected Goal',
+                        border: OutlineInputBorder(),
+                        labelStyle: TextStyle(color: Colors.black)),
+                    dropdownColor: Colors.white,
+                    hint: Text("Select Goal"),
+                    // value: Dropdown,
+                    items: list.map((g) {
+                      return DropdownMenuItem(value: g, child: Text(g.name));
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedGoalName = value?.name;
+                        setValues(value!);
+                      });
+                    },
+                  ),
+                  SizedBox(height: 16),
+                  TextFormField(
+                    //initialValue: goal.name,
                     controller: goalNameController,
                     decoration: InputDecoration(
                         labelText: 'Goal Name',
@@ -130,7 +151,8 @@ class _EditgoalPageState extends State<EditgoalPage> {
                     style: TextStyle(color: Colors.black),
                   ),
                   SizedBox(height: 16),
-                  TextField(
+                  TextFormField(
+                    //initialValue: "${goal.amount}",
                     controller: goalAmountController,
                     decoration: InputDecoration(
                         labelText: 'How much do you want to save?',
@@ -140,26 +162,21 @@ class _EditgoalPageState extends State<EditgoalPage> {
                     style: TextStyle(color: Colors.black),
                   ),
                   SizedBox(height: 16),
-                  DropdownButtonFormField<String>(
+                  DropdownButtonFormField<int>(
+                    value: selectedDuration,
                     decoration: InputDecoration(
                         labelText: 'Duration',
                         border: OutlineInputBorder(),
                         labelStyle: TextStyle(color: Colors.black)),
                     dropdownColor: Colors.white,
-                    items: [
-                      '1 month',
-                      '2 months',
-                      '3 months',
-                      '6 months',
-                      '1 year'
-                    ].map((String duration) {
-                      return DropdownMenuItem<String>(
+                    items: [1, 2, 3, 4].map((int duration) {
+                      return DropdownMenuItem<int>(
                         value: duration,
-                        child: Text(duration,
+                        child: Text("$duration month",
                             style: TextStyle(color: Colors.black)),
                       );
                     }).toList(),
-                    onChanged: (String? newValue) {
+                    onChanged: (int? newValue) {
                       setState(() {
                         selectedDuration = newValue;
                       });
@@ -167,9 +184,26 @@ class _EditgoalPageState extends State<EditgoalPage> {
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: addGoal,
+                    onPressed: () {
+                      //addgoal
+                      context.read<GoalsProvider>().updateGoal(Goal(
+                          name: goalNameController.text,
+                          amount:
+                              double.tryParse(goalAmountController.text) ?? 0,
+                          duration: selectedDuration ?? 0));
+                      ScaffoldMessenger.of(context).showMaterialBanner(
+                          MaterialBanner(
+                              content: Text("Goal has been updated"),
+                              actions: [
+                            TextButton(
+                              onPressed: ScaffoldMessenger.of(context)
+                                  .removeCurrentMaterialBanner,
+                              child: Text('DISMISS'),
+                            ),
+                          ]));
+                    },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
+                        backgroundColor: Colors.blue,
                         padding:
                             EdgeInsets.symmetric(vertical: 16, horizontal: 20)),
                     child: Text(
@@ -184,51 +218,22 @@ class _EditgoalPageState extends State<EditgoalPage> {
               ),
             ),
             SizedBox(height: 20),
-            ...goals.map((goal) => GoalCard(goal: goal)).toList(),
+            ...context
+                .read<GoalsProvider>()
+                .list
+                .map((goal) => GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        setValues(goal);
+                      });
+                    },
+                    child: GoalCard(goal: goal)))
+                .toList(),
           ],
         ),
       ),
     );
   }
-
-  Widget buildPoint(
-      {required IconData icon,
-      required String title,
-      required String description}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, size: 24, color: Colors.black),
-          SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title,
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
-                SizedBox(height: 4),
-                Text(description,
-                    style: TextStyle(fontSize: 16, color: Colors.black)),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class Goal {
-  final String name;
-  final double amount;
-  final String duration;
-
-  Goal({required this.name, required this.amount, required this.duration});
 }
 
 class GoalCard extends StatelessWidget {
